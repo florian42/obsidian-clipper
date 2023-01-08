@@ -1,6 +1,6 @@
 # <img src="public/icons/icon_48.png" width="45" align="left"> Obsidian Clipper
 
-My Chrome Extension
+> Obsidian Web Clipper Chrome Extension to save articles and pages from the web in Obsidian
 
 ## Features
 

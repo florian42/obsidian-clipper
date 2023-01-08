@@ -12,33 +12,72 @@
 // See https://developer.chrome.com/extensions/content_scripts
 
 // Log `title` of current active web page
-const pageTitle: string =
-  document.head.getElementsByTagName('title')[0].innerHTML;
-console.log(
-  `Page title is: '${pageTitle}' - evaluated by Chrome extension's 'contentScript.js' file`
-);
+import { Readability } from '@mozilla/readability';
+import Turndown from 'turndown'
 
-// Communicate with background file by sending a message
-chrome.runtime.sendMessage(
-  {
-    type: 'GREETINGS',
-    payload: {
-      message: 'Hello, my name is Con. I am from ContentScript.',
-    },
-  },
-  (response) => {
-    console.log(response.message);
+// With background scripts you can communicate with popup
+// and contentScript files.
+// For more information on background script,
+// See https://developer.chrome.com/extensions/background_pages
+
+/* Optional vault name */
+const vault = 'Zettelkasten';
+
+/* Optional folder name such as "Clippings/" */
+const folder = 'links/';
+
+/* Optional tags  */
+const tags = '#clippings';
+
+function getFileName(fileName: string) {
+  const platform = window.navigator.platform,
+    windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
+
+  if (windowsPlatforms.indexOf(platform) !== -1) {
+    fileName = fileName.replace(':', '').replace(/[/\\?%*|"<>]/g, '-');
+  } else {
+    fileName = fileName
+      .replace(':', '')
+      .replace(/\//g, '-')
+      .replace(/\\/g, '-');
   }
-);
+  return fileName;
+}
 
-// Listen for message
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.type === 'COUNT') {
-    console.log(`Current count is ${request.payload.count}`);
-  }
+console.log("Parsing document")
+const parsedDocument = new Readability(document.cloneNode(true) as Document).parse();
 
-  // Send an empty response
-  // See https://github.com/mozilla/webextension-polyfill/issues/130#issuecomment-531531890
-  sendResponse({});
-  return true;
-});
+if (!parsedDocument) {
+  throw new Error("Couldn't parse web page content");
+}
+
+const { title, content, excerpt, length } = parsedDocument;
+
+const markdownBody = new Turndown({
+  headingStyle: 'atx',
+  hr: '---',
+  bulletListMarker: '-',
+  codeBlockStyle: 'fenced',
+  emDelimiter: '*',
+}).turndown(content);
+
+const fileContent =
+    "---" + "\n"	
+    + "link: "  + `"${document.URL}"` + "\n"
+    + "title: " + `"${title}"` + "\n"
+    + "timestamp: " + `"${new Intl.DateTimeFormat('en-US').format(new Date())}"` + "\n"
+    + "domain: " + `"${window.location.hostname}"` + "\n"
+    + "excerpt: " + `"${excerpt}"` + "\n"
+    + "word_count: " + `"${length}"` + "\n"
+    + "status: " + "unread\n"
+    + "---" + "\n"
+    + tags + "\n\n"
+    + markdownBody;
+
+document.location.href =
+  "obsidian://new?" +
+  "file=" +
+  encodeURIComponent(folder + getFileName(title)) +
+  "&content=" +
+  encodeURIComponent(fileContent) +
+  "&vault=" + encodeURIComponent(`${vault}`);
