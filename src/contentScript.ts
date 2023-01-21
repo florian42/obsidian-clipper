@@ -14,7 +14,7 @@
 // Log `title` of current active web page
 import { Readability } from '@mozilla/readability';
 import Turndown from 'turndown'
-import { STORAGE_KEYS } from './options';
+import { Keys, STORAGE_KEYS } from './options';
 
 // With background scripts you can communicate with popup
 // and contentScript files.
@@ -37,7 +37,6 @@ function getFileName(fileName: string) {
 }
 
 function parseDocument() {
-  console.debug("Parsing document")
 const parsedDocument = new Readability(document.cloneNode(true) as Document).parse();
 
 if (!parsedDocument) {
@@ -81,16 +80,17 @@ document.location.href =
   "&vault=" + encodeURIComponent(`${vault}`)
 }
 
+type Settings = {[key in Keys]: string}
+
 async function getSettings() {
-  return chrome.storage.sync.get(Object.values(STORAGE_KEYS))
+  return chrome.storage.sync.get(Object.values(STORAGE_KEYS)) as Promise<Settings>
 }
 
 async function main() {
-  const {tag, vault, folder} = await getSettings()
-  console.debug({tag, vault, folder})
+  const {tag, vaultName, folder} = await getSettings()
   const {title, excerpt, content, length} = parseDocument()
   const fileContent = getFileContent(tag, title, content, excerpt, length)
-  exportToObsidian(title, fileContent, vault, folder)
+  exportToObsidian(title, fileContent, vaultName, folder)
 }
 
 main()

@@ -6,7 +6,6 @@
 // See https://developer.chrome.com/extensions/background_pages
 
 chrome.action.onClicked.addListener(async (tab) => {
-  console.log("Running backgroundScript")
   if (!tab.id) {
     throw Error("No tab id received")
   }

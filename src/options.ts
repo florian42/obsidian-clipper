@@ -1,10 +1,14 @@
+'use strict';
+
 import './options.css';
 
 export const STORAGE_KEYS = {
   VAULT_NAME: "vaultName",
   FOLDER: "folder",
   TAG: "tag"
-}
+} as const
+
+export type Keys = typeof STORAGE_KEYS[keyof typeof STORAGE_KEYS]
 
 function save_options() {
   const vault = (document.getElementById('vault') as HTMLInputElement).value;
@@ -19,12 +23,10 @@ function save_options() {
     () => {
       // Update status to let user know options were saved.
       const status = document.getElementById('status');
-      console.log({status})
       if (!status) {
         throw new Error('Cannot set status');
       }
       status.textContent = 'Options saved.';
-      console.log("Saved!")
       setTimeout(function () {
         status.textContent = '';
       }, 750);
@@ -34,9 +36,9 @@ function save_options() {
 
 function restore_options() {
   chrome.storage.sync.get((items) => {
-    (document.getElementById('vault') as HTMLInputElement).value = items[STORAGE_KEYS.VAULT_NAME];
-    (document.getElementById('folder') as HTMLInputElement).value = items[STORAGE_KEYS.FOLDER];
-    (document.getElementById('tag') as HTMLInputElement).value = items[STORAGE_KEYS.TAG];
+    (document.getElementById('vault') as HTMLInputElement).value = items[STORAGE_KEYS.VAULT_NAME] || "";
+    (document.getElementById('folder') as HTMLInputElement).value = items[STORAGE_KEYS.FOLDER] || "";
+    (document.getElementById('tag') as HTMLInputElement).value = items[STORAGE_KEYS.TAG] || "";
   });
 }
 
