@@ -11,6 +11,7 @@ const config = (env, argv) =>
     entry: {
       contentScript: PATHS.src + '/contentScript.ts',
       background: PATHS.src + '/background.ts',
+      options: PATHS.src + '/options.ts',
     },
     devtool: argv.mode === 'production' ? false : 'source-map',
   });

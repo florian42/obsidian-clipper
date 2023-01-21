@@ -14,20 +14,12 @@
 // Log `title` of current active web page
 import { Readability } from '@mozilla/readability';
 import Turndown from 'turndown'
+import { STORAGE_KEYS } from './options';
 
 // With background scripts you can communicate with popup
 // and contentScript files.
 // For more information on background script,
 // See https://developer.chrome.com/extensions/background_pages
-
-/* Optional vault name */
-const vault = 'Zettelkasten';
-
-/* Optional folder name such as "Clippings/" */
-const folder = 'links/';
-
-/* Optional tags  */
-const tags = '#clippings';
 
 function getFileName(fileName: string) {
   const platform = window.navigator.platform,
@@ -44,14 +36,18 @@ function getFileName(fileName: string) {
   return fileName;
 }
 
-console.log("Parsing document")
+function parseDocument() {
+  console.debug("Parsing document")
 const parsedDocument = new Readability(document.cloneNode(true) as Document).parse();
 
 if (!parsedDocument) {
   throw new Error("Couldn't parse web page content");
 }
 
-const { title, content, excerpt, length } = parsedDocument;
+return parsedDocument;
+}
+
+function getFileContent(tag: string, title: string, content: string, excerpt: string, length: number) {
 
 const markdownBody = new Turndown({
   headingStyle: 'atx',
@@ -61,7 +57,7 @@ const markdownBody = new Turndown({
   emDelimiter: '*',
 }).turndown(content);
 
-const fileContent =
+return(
     "---" + "\n"	
     + "link: "  + `"${document.URL}"` + "\n"
     + "title: " + `"${title}"` + "\n"
@@ -71,13 +67,30 @@ const fileContent =
     + "word_count: " + `"${length}"` + "\n"
     + "status: " + "unread\n"
     + "---" + "\n"
-    + tags + "\n\n"
-    + markdownBody;
+    + tag + "\n\n"
+    + markdownBody)
+}
 
+function exportToObsidian(title: string, fileContent: string, vault: string, folder: string) {
 document.location.href =
   "obsidian://new?" +
   "file=" +
   encodeURIComponent(folder + getFileName(title)) +
   "&content=" +
   encodeURIComponent(fileContent) +
-  "&vault=" + encodeURIComponent(`${vault}`);
+  "&vault=" + encodeURIComponent(`${vault}`)
+}
+
+async function getSettings() {
+  return chrome.storage.sync.get(Object.values(STORAGE_KEYS))
+}
+
+async function main() {
+  const {tag, vault, folder} = await getSettings()
+  console.debug({tag, vault, folder})
+  const {title, excerpt, content, length} = parseDocument()
+  const fileContent = getFileContent(tag, title, content, excerpt, length)
+  exportToObsidian(title, fileContent, vault, folder)
+}
+
+main()

@@ -1,0 +1,24 @@
+body {
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  margin: 4px 0px;
+}
+
+#save-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 6px auto;
+  justify-content: baseline;
+}
+
+#status {
+  margin-left: 4px;
+  margin-top: 2px;
+  color: hsla(127, 100%, 31%, 1);
+}

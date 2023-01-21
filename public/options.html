@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head><title>My Test Extension Options</title></head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Obsidian Clipper</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
 <body>
 
 <label>
-  Vault Name
+  Vault Name:
   <input type="text" id="vault">
 </label>
 
 
 <label>
-  Folder (Optional)
+  Folder (Optional):
   <input type="text" id="folder">
 </label>
 
 <label>
-  Tag (Optional)
+  Tag (Optional):
   <input type="text" id="tag">
 </label>
 
-<div id="status"></div>
+<div id="save-wrapper">
 <button id="save">Save</button>
+<div id="status"></div>
+</div>
 
 <script src="options.js"></script>
 </body>
