@@ -13,8 +13,9 @@
 
 // Log `title` of current active web page
 import { Readability } from '@mozilla/readability';
-import Turndown from 'turndown'
+import Turndown from 'turndown';
 import { Keys, STORAGE_KEYS } from './options';
+import { yamlItem } from './yaml';
 
 // With background scripts you can communicate with popup
 // and contentScript files.
@@ -37,60 +38,80 @@ function getFileName(fileName: string) {
 }
 
 function parseDocument() {
-const parsedDocument = new Readability(document.cloneNode(true) as Document).parse();
+  const parsedDocument = new Readability(
+    document.cloneNode(true) as Document
+  ).parse();
 
-if (!parsedDocument) {
-  throw new Error("Couldn't parse web page content");
+  if (!parsedDocument) {
+    throw new Error("Couldn't parse web page content");
+  }
+
+  return parsedDocument;
 }
 
-return parsedDocument;
+function getFileContent(
+  tag: string,
+  title: string,
+  content: string,
+  excerpt: string,
+  length: number
+) {
+  const markdownBody = new Turndown({
+    headingStyle: 'atx',
+    hr: '---',
+    bulletListMarker: '-',
+    codeBlockStyle: 'fenced',
+    emDelimiter: '*',
+  }).turndown(content);
+
+  return (
+    '---' +
+    '\n' +
+    yamlItem('link', document.URL) +
+    yamlItem('title', title) +
+    yamlItem('timestamp', new Intl.DateTimeFormat('en-US').format(new Date())) +
+    yamlItem('domain', window.location.hostname) +
+    yamlItem('excerpt', excerpt) +
+    yamlItem('word_count', length.toString()) +
+    yamlItem('status', 'unread') +
+    '---' +
+    '\n' +
+    tag +
+    '\n\n' +
+    markdownBody
+  );
 }
 
-function getFileContent(tag: string, title: string, content: string, excerpt: string, length: number) {
-
-const markdownBody = new Turndown({
-  headingStyle: 'atx',
-  hr: '---',
-  bulletListMarker: '-',
-  codeBlockStyle: 'fenced',
-  emDelimiter: '*',
-}).turndown(content);
-
-return(
-    "---" + "\n"	
-    + "link: "  + `"${document.URL}"` + "\n"
-    + "title: " + `"${title}"` + "\n"
-    + "timestamp: " + `"${new Intl.DateTimeFormat('en-US').format(new Date())}"` + "\n"
-    + "domain: " + `"${window.location.hostname}"` + "\n"
-    + "excerpt: " + `"${excerpt}"` + "\n"
-    + "word_count: " + `"${length}"` + "\n"
-    + "status: " + "unread\n"
-    + "---" + "\n"
-    + tag + "\n\n"
-    + markdownBody)
+function exportToObsidian(
+  title: string,
+  fileContent: string,
+  vault: string,
+  folder: string
+) {
+  const link =
+    'obsidian://new?' +
+    'file=' +
+    encodeURIComponent(folder + '/' + getFileName(title)) +
+    '&content=' +
+    encodeURIComponent(fileContent) +
+    '&vault=' +
+    encodeURIComponent(`${vault}`);
+  document.location.href = link;
 }
 
-function exportToObsidian(title: string, fileContent: string, vault: string, folder: string) {
-document.location.href =
-  "obsidian://new?" +
-  "file=" +
-  encodeURIComponent(folder + getFileName(title)) +
-  "&content=" +
-  encodeURIComponent(fileContent) +
-  "&vault=" + encodeURIComponent(`${vault}`)
-}
-
-type Settings = {[key in Keys]: string}
+type Settings = { [key in Keys]: string };
 
 async function getSettings() {
-  return chrome.storage.sync.get(Object.values(STORAGE_KEYS)) as Promise<Settings>
+  return chrome.storage.sync.get(
+    Object.values(STORAGE_KEYS)
+  ) as Promise<Settings>;
 }
 
 async function main() {
-  const {tag, vaultName, folder} = await getSettings()
-  const {title, excerpt, content, length} = parseDocument()
-  const fileContent = getFileContent(tag, title, content, excerpt, length)
-  exportToObsidian(title, fileContent, vaultName, folder)
+  const { tag, vaultName, folder } = await getSettings();
+  const { title, excerpt, content, length } = parseDocument();
+  const fileContent = getFileContent(tag, title, content, excerpt, length);
+  exportToObsidian(title, fileContent, vaultName, folder);
 }
 
-main()
+main();

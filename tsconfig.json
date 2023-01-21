@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "rootDir": "src",
     "target": "es6",
     "module": "commonjs",
     "esModuleInterop": true,
@@ -9,5 +8,9 @@
   "types": [
       //(various types, e.g. jquery, core-js),
       "chrome"
-  ]
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
 }
