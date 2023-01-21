@@ -1,3 +1,3 @@
 export function yamlItem(key: string, value: string): string {
-    return `${key}: "${value}"\n`
+    return `${key}: "${value.replace(/"/g, "'")}"\n`
 }
