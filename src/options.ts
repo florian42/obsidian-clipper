@@ -10,15 +10,20 @@ export const STORAGE_KEYS = {
 
 export type Keys = typeof STORAGE_KEYS[keyof typeof STORAGE_KEYS]
 
+function sanitizeInput(input: string) {
+  return input.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+}
+
 function save_options() {
   const vault = (document.getElementById('vault') as HTMLInputElement).value;
   const folder = (document.getElementById('folder') as HTMLInputElement).value;
   const tag = (document.getElementById('tag') as HTMLInputElement).value;
+
   chrome.storage.sync.set(
     {
-      [STORAGE_KEYS.VAULT_NAME]: vault,
-      [STORAGE_KEYS.FOLDER]: folder,
-      [STORAGE_KEYS.TAG]: tag,
+      [STORAGE_KEYS.VAULT_NAME]: sanitizeInput(vault),
+      [STORAGE_KEYS.FOLDER]: sanitizeInput(folder),
+      [STORAGE_KEYS.TAG]: sanitizeInput(tag),
     },
     () => {
       // Update status to let user know options were saved.
