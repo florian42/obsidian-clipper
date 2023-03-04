@@ -13,9 +13,8 @@
 
 // Log `title` of current active web page
 import { Readability } from '@mozilla/readability';
-import Turndown from 'turndown';
+import { getFileContent } from './fileContents';
 import { Keys, STORAGE_KEYS } from './options';
-import { yamlItem } from './yaml';
 
 // With background scripts you can communicate with popup
 // and contentScript files.
@@ -47,39 +46,6 @@ function parseDocument() {
   }
 
   return parsedDocument;
-}
-
-function getFileContent(
-  tag: string,
-  title: string,
-  content: string,
-  excerpt: string,
-  length: number
-) {
-  const markdownBody = new Turndown({
-    headingStyle: 'atx',
-    hr: '---',
-    bulletListMarker: '-',
-    codeBlockStyle: 'fenced',
-    emDelimiter: '*',
-  }).turndown(content);
-
-  return (
-    '---' +
-    '\n' +
-    yamlItem('link', document.URL) +
-    yamlItem('title', title) +
-    yamlItem('timestamp', new Intl.DateTimeFormat('en-US').format(new Date())) +
-    yamlItem('domain', window.location.hostname) +
-    yamlItem('excerpt', excerpt) +
-    yamlItem('word_count', length.toString()) +
-    yamlItem('status', 'unread') +
-    '---' +
-    '\n' +
-    tag +
-    '\n\n' +
-    markdownBody
-  );
 }
 
 function exportToObsidian(
