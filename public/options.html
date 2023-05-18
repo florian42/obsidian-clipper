@@ -6,25 +6,194 @@
     <link rel="stylesheet" href="options.css" />
   </head>
   <body>
-    <label>
-      Vault Name:
-      <input type="text" id="vault" required placeholder="Second-Brain" />
-    </label>
+    <main>
+      <form id="obsidian-clipper-options">
+        <fieldset>
+          <legend>Basic Setup</legend>
+          <label>
+            Vault Name:
+            <input
+              type="text"
+              id="vault"
+              name="vault"
+              required
+              placeholder="Second-Brain"
+            />
+          </label>
 
-    <label>
-      Folder (Optional):
-      <input type="text" id="folder" placeholder="Articles" />
-    </label>
+          <label>
+            Folder (Optional):
+            <input
+              type="text"
+              id="folder"
+              name="folder"
+              placeholder="Articles"
+            />
+          </label>
 
-    <label>
-      Tag (Optional):
-      <input type="text" id="tag" placeholder="#clippings"/>
-    </label>
-
-    <div id="save-wrapper">
-      <button id="save">Save</button>
-      <div id="status"></div>
-    </div>
+          <label>
+            Tag (Optional):
+            <input type="text" id="tag" name="tag" placeholder="#clippings" />
+          </label>
+        </fieldset>
+        <fieldset>
+          <legend>Metadata Configuration</legend>
+          <div class="metadata-configuration-item">
+            <div class="metadata-configuration-text-input">
+              <label>
+                title:
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  placeholder="title"
+                />
+              </label>
+            </div>
+            <div class="metadata-configuration-checkbox">
+              <label for="title-checkbox">Include</label>
+              <input
+                type="checkbox"
+                id="title-checkbox"
+                name="include-title"
+                checked
+              />
+            </div>
+          </div>
+          <div class="metadata-configuration-item">
+            <div class="metadata-configuration-text-input">
+              <label>
+                link:
+                <input type="text" id="link" name="link" placeholder="link" />
+              </label>
+            </div>
+            <div class="metadata-configuration-checkbox">
+              <label for="link-checkbox">Include</label>
+              <input
+                type="checkbox"
+                id="link-checkbox"
+                name="include-link"
+                checked
+              />
+            </div>
+          </div>
+          <div class="metadata-configuration-item">
+            <div class="metadata-configuration-text-input">
+              <label>
+                timestamp:
+                <input
+                  type="text"
+                  id="timestamp"
+                  name="timestamp"
+                  placeholder="timestamp"
+                />
+              </label>
+            </div>
+            <div class="metadata-configuration-checkbox">
+              <label for="timestamp-checkbox">Include</label>
+              <input
+                type="checkbox"
+                id="timestamp-checkbox"
+                name="include-timestamp"
+                checked
+              />
+            </div>
+          </div>
+          <div class="metadata-configuration-item">
+            <div class="metadata-configuration-text-input">
+              <label>
+                domain:
+                <input
+                  type="text"
+                  id="domain"
+                  name="domain"
+                  placeholder="domain"
+                />
+              </label>
+            </div>
+            <div class="metadata-configuration-checkbox">
+              <label for="domain-checkbox">Include</label>
+              <input
+                type="checkbox"
+                id="domain-checkbox"
+                name="include-domain"
+                checked
+              />
+            </div>
+          </div>
+          <div class="metadata-configuration-item">
+            <div class="metadata-configuration-text-input">
+              <label>
+                excerpt:
+                <input
+                  type="text"
+                  id="excerpt"
+                  name="excerpt"
+                  placeholder="excerpt"
+                />
+              </label>
+            </div>
+            <div class="metadata-configuration-checkbox">
+              <label for="excerpt-checkbox">Include</label>
+              <input
+                type="checkbox"
+                id="excerpt-checkbox"
+                name="include-excerpt"
+                checked
+              />
+            </div>
+          </div>
+          <div class="metadata-configuration-item">
+            <div class="metadata-configuration-text-input">
+              <label>
+                word count:
+                <input
+                  type="text"
+                  id="wordCount"
+                  name="wordCount"
+                  placeholder="word_count"
+                />
+              </label>
+            </div>
+            <div class="metadata-configuration-checkbox">
+              <label for="word-count-checkbox">Include</label>
+              <input
+                type="checkbox"
+                id="word-count-checkbox"
+                name="include-word-count"
+                checked
+              />
+            </div>
+          </div>
+          <div class="metadata-configuration-item">
+            <div class="metadata-configuration-text-input">
+              <label>
+                status:
+                <input
+                  type="text"
+                  id="status-input"
+                  name="status"
+                  placeholder="status"
+                />
+              </label>
+            </div>
+            <div class="metadata-configuration-checkbox">
+              <label for="status-checkbox">Include</label>
+              <input
+                type="checkbox"
+                id="status-checkbox"
+                name="include-status"
+                checked
+              />
+            </div>
+          </div>
+        </fieldset>
+        <div id="save-wrapper">
+          <button id="save" type="submit">Save</button>
+          <div id="status"></div>
+        </div>
+      </form>
+    </main>
 
     <script src="options.js"></script>
   </body>
