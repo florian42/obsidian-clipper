@@ -22,3 +22,21 @@ label {
   margin-top: 2px;
   color: hsla(127, 100%, 31%, 1);
 }
+
+.metadata-configuration-item {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+}
+.metadata-configuration-text-input {
+  flex: 1;
+}
+
+.metadata-configuration-checkbox {
+  flex: 0.3;
+  display: flex;
+  align-items: center;
+  margin-top: 2ch;
+  column-gap: 4px;
+}
