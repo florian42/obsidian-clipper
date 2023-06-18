@@ -8,7 +8,7 @@
     "build": "webpack --mode=production --config config/webpack.config.js",
     "format": "prettier --write --ignore-unknown \"{config,public,src}/**/*.{html,css,js,ts,json}\"",
     "test": "jest",
-    "package": "cd build && zip -r obsidian-clipper.zip ."
+    "package": "npm run build && cd build && zip -r obsidian-clipper.zip ."
   },
   "devDependencies": {
     "@types/chrome": "^0.0.181",
