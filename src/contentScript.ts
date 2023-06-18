@@ -12,9 +12,9 @@
 // See https://developer.chrome.com/extensions/content_scripts
 
 // Log `title` of current active web page
-import {Readability} from '@mozilla/readability';
-import {getFileContent} from './fileContents';
-import {SettingEntries, STORAGE_KEYS} from './options';
+import { Readability } from '@mozilla/readability';
+import { getFileContent } from './fileContents';
+import { SettingEntries, STORAGE_KEYS } from './options';
 
 // With background scripts you can communicate with popup
 // and contentScript files.
@@ -54,7 +54,8 @@ function exportToObsidian(
   vault: string,
   folder: string
 ) {
-  document.location.href = 'obsidian://new?' +
+  document.location.href =
+    'obsidian://new?' +
     'file=' +
     encodeURIComponent(folder + '/' + getFileName(title)) +
     '&content=' +
@@ -73,7 +74,6 @@ async function getSettings() {
 
 async function main() {
   const config = await getSettings();
-  console.log({config})
   const { title, excerpt, content, length } = parseDocument();
   const fileContent = getFileContent(
     { tag: config.tag, title, content, excerpt, length },
