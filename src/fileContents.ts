@@ -47,6 +47,8 @@ export function getFileContent(
     emDelimiter: '*',
   }).turndown(content);
 
+  const tagContent = tag ?? '';
+
   return (
     '---' +
     '\n' +
@@ -63,7 +65,7 @@ export function getFileContent(
     yamlItemOrEmpty(config.status, 'unread', config.include_status) +
     '---' +
     '\n' +
-    tag +
+    tagContent +
     '\n\n' +
     markdownBody
   );
