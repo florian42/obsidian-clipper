@@ -5,17 +5,16 @@
   "private": true,
   "scripts": {
     "build": "bun build ./src/options.ts ./src/contentScript.ts ./src/background.ts --outdir ./build --minify && cp -r ./public/ ./build/",
+    "format": "prettier --write --ignore-unknown \"{config,public,src}/**/*.{html,css,js,ts,json}\"",
     "package": "bun run build && cd build && zip -r obsidian-clipper.zip ."
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^14.7.1",
+    "@types/bun": "^1.1.0",
     "@types/chrome": "^0.0.181",
     "@types/js-yaml": "^4.0.5",
     "@types/turndown": "^5.0.4",
-    "css-loader": "^6.7.3",
-    "file-loader": "^6.2.0",
-    "identity-obj-proxy": "^3.0.0",
     "js-yaml": "^4.1.0",
-    "mini-css-extract-plugin": "^2.7.2",
     "prettier": "^3.2.5"
   },
   "dependencies": {

@@ -6,6 +6,6 @@
     "esModuleInterop": true,
     "strict": true
   },
-  "types": ["chrome"],
+  "types": ["chrome", "bun"],
   "include": ["./src"]
 }

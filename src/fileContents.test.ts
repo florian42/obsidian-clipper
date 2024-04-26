@@ -1,13 +1,22 @@
-import {Config, getFileContent} from './fileContents';
+/// <reference lib="dom" />
+import {
+  describe,
+  beforeAll,
+  afterAll,
+  it,
+  expect,
+  setSystemTime,
+} from 'bun:test';
+import { Config, getFileContent } from './fileContents';
 import yaml from 'js-yaml';
 
 describe('getFileContent', () => {
   beforeAll(() => {
-    jest.useFakeTimers({ now: new Date('March 4, 2023 11:13:00') });
+    setSystemTime(new Date('March 4, 2023 11:13:00'));
   });
 
   afterAll(() => {
-    jest.useRealTimers();
+    setSystemTime();
   });
 
   it('returns file content with correct YAML metadata', () => {
@@ -147,7 +156,7 @@ const expectedOutput = `---
 link: "${document.URL}"
 title: "My Test File"
 timestamp: "3/4/2023"
-domain: "localhost"
+domain: ""
 excerpt: "This file is used for testing getFileContent function."
 word_count: "102"
 status: "unread"
@@ -160,7 +169,7 @@ const expectedOutputRenamed = `---
 url: "${document.URL}"
 headline: "My Test File"
 time: "3/4/2023"
-source: "localhost"
+source: ""
 summary: "This file is used for testing getFileContent function."
 words: "102"
 read_sta: "unread"
