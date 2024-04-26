@@ -60,8 +60,7 @@ function exportToObsidian(
     encodeURIComponent(folder + '/' + getFileName(title)) +
     '&content=' +
     encodeURIComponent(fileContent) +
-    '&vault=' +
-    encodeURIComponent(`${vault}`);
+    (vault ? `&vault=${encodeURIComponent(vault)}` : '');
 }
 
 type Settings = { [key in SettingEntries]: any };
