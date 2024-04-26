@@ -1,7 +1,5 @@
 'use strict';
 
-import './options.css';
-
 document.addEventListener('DOMContentLoaded', restoreOptions);
 document.addEventListener('submit', saveOptions);
 

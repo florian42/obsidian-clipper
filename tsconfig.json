@@ -6,12 +6,6 @@
     "esModuleInterop": true,
     "strict": true
   },
-  "types": [
-      //(various types, e.g. jquery, core-js),
-      "chrome"
-  ],
-  "exclude": [
-    "node_modules",
-    "build"
-  ],
+  "types": ["chrome"],
+  "include": ["./src"]
 }
