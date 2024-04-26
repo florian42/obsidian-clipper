@@ -1,7 +1,7 @@
 body {
-    display: flex;
-    flex-direction: column;
-    padding: 4px;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
 }
 
 label {
@@ -27,7 +27,6 @@ label {
   display: flex;
   gap: 16px;
   align-items: center;
-
 }
 .metadata-configuration-text-input {
   flex: 1;

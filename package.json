@@ -1,6 +1,6 @@
 {
   "name": "obsidian-clipper",
-  "version": "0.3.0",
+  "version": "0.2.1",
   "description": "Obsidian Web Clipper Chrome Extension to save articles and pages from the web in Obsidian",
   "private": true,
   "scripts": {

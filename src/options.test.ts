@@ -1,3 +1,5 @@
+/// <reference lib="dom" />
+
 import { STORAGE_KEYS, saveOptions, restoreOptions } from './options';
 
 describe('options.ts', () => {
@@ -55,21 +57,46 @@ describe('options.ts', () => {
       form.appendChild(createFormElement('domain', 'testDomain'));
       form.appendChild(createFormElement('excerpt', 'testExcerpt'));
       form.appendChild(createFormElement('link', 'testLink'));
-      form.appendChild(createFormElement('status-input', 'testStatusInput', 'text', 'status'));
+      form.appendChild(
+        createFormElement('status-input', 'testStatusInput', 'text', 'status')
+      );
       form.appendChild(createFormElement('timestamp', 'testTimestamp'));
       form.appendChild(createFormElement('wordCount', 'testWordCount'));
-      form.appendChild(createFormElement('domain-checkbox', true, 'checkbox', 'include-domain'));
-      form.appendChild(createFormElement('title-checkbox', true, 'checkbox', 'include-title'));
+      form.appendChild(
+        createFormElement('domain-checkbox', true, 'checkbox', 'include-domain')
+      );
+      form.appendChild(
+        createFormElement('title-checkbox', true, 'checkbox', 'include-title')
+      );
       form.appendChild(
         createFormElement('excerpt-checkbox', false, 'checkbox')
       );
-      form.appendChild(createFormElement('link-checkbox', true, 'checkbox', 'include-link'));
-      form.appendChild(createFormElement('status-checkbox', false, 'checkbox', 'include-status'));
       form.appendChild(
-        createFormElement('timestamp-checkbox', true, 'checkbox', 'include-timestamp')
+        createFormElement('link-checkbox', true, 'checkbox', 'include-link')
       );
       form.appendChild(
-        createFormElement('word-count-checkbox', false, 'checkbox', 'include-word-count')
+        createFormElement(
+          'status-checkbox',
+          false,
+          'checkbox',
+          'include-status'
+        )
+      );
+      form.appendChild(
+        createFormElement(
+          'timestamp-checkbox',
+          true,
+          'checkbox',
+          'include-timestamp'
+        )
+      );
+      form.appendChild(
+        createFormElement(
+          'word-count-checkbox',
+          false,
+          'checkbox',
+          'include-word-count'
+        )
       );
 
       document.body.appendChild(form);
@@ -80,8 +107,8 @@ describe('options.ts', () => {
 
       const submitEvent = new Event('submit');
       form.addEventListener('submit', (event) => {
-        event.preventDefault()
-        saveOptions(event as any)
+        event.preventDefault();
+        saveOptions(event as any);
       });
       form.dispatchEvent(submitEvent);
 

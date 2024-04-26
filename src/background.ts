@@ -7,10 +7,10 @@
 
 chrome.action.onClicked.addListener(async (tab) => {
   if (!tab.id) {
-    throw Error("No tab id received")
+    throw Error('No tab id received');
   }
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    files: ['contentScript.js']
+    files: ['contentScript.js'],
   });
-})
+});
