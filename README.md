@@ -21,18 +21,16 @@ This is a great tool for researchers, students, and anyone who wants to save and
 Suggestions and pull requests are welcomed!.
 
 ### Available Scripts
-- npm run watch
-    - Listens for files changes and rebuilds automatically.
-- npm run build
+- bun run build
     - Bundles the app into static files for Chrome store.
-- npm run format
+- bun run format
     - Formats all the files.
-- npm run test
+- bun test
     - Runs unit tests
 
 ### Workflow
 1. cd obsidian-clipper
-2. Run npm run watch
+2. Run bun run build
 3. Open chrome://extensions
 4. Check the Developer mode checkbox
 5. Click on the Load unpacked extension button
