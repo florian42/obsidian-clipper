@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Obsidian Clipper",
+  "name": "Obsidian Clipper Temporary",
   "version": "0.2.1",
   "description": "Obsidian Web Clipper Chrome Extension to save articles and pages from the web in Obsidian",
   "icons": {
