@@ -40,3 +40,20 @@ label {
   margin-top: 2ch;
   column-gap: 4px;
 }
+
+.greeting {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.greeting h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.greeting p {
+  margin-bottom: 0;
+  color: #666;
+}

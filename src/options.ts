@@ -116,6 +116,8 @@ export function restoreOptions() {
     (
       document.getElementById('word-count-checkbox') as HTMLInputElement
     ).checked = items[STORAGE_KEYS.INCLUDE_WORD_COUNT] ?? true;
+
+    updateGreeting(items[STORAGE_KEYS.VAULT_NAME]);
   });
 }
 
@@ -138,4 +140,25 @@ function getFormValues(form: HTMLFormElement) {
   }
 
   return formValues;
+}
+
+function updateGreeting(vaultName: string) {
+  const greetingElement = document.getElementById('greeting');
+  if (greetingElement) {
+    if (!vaultName) {
+      greetingElement.innerHTML = `
+        <h2>Welcome to Obsidian Clipper!</h2>
+        <p>
+        Thank you for downloading.
+        To get started, please enter the name of the vault where you want to store your clipped files and hit save.
+        After that, you can start clipping web pages to your Obsidian vault and close this tab.
+        </p>
+      `;
+    } else {
+      greetingElement.innerHTML = `
+        <h2>Obsidian Clipper Settings</h2>
+        <p>Your clipper is configured to save to the "${vaultName}" vault. Feel free to adjust any settings below.</p>
+      `;
+    }
+  }
 }

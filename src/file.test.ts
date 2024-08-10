@@ -1,5 +1,37 @@
-import {Config, getFileContent} from './fileContents';
+import { Config, getFileContent, getFileName } from './file';
 import yaml from 'js-yaml';
+
+describe('getFileName', () => {
+  it('removes multiple ":" characters on windows', () => {
+    const title = 'Test: The is the bug: Maybe?';
+    const result = getFileName(title, 'Windows');
+    expect(result).toBe('Test The is the bug Maybe-');
+  });
+
+  it('replaces multiple other illegal characters on windows', () => {
+    const title = 'Test/?%*|"<> The is the bug Maybe?';
+    const result = getFileName(title, 'Windows');
+    expect(result).toBe('Test-------- The is the bug Maybe-');
+  });
+
+  it('removes multiple ":" characters on other os', () => {
+    const title = 'Test: The is the bug: Maybe?';
+    const result = getFileName(title, 'Linux');
+    expect(result).toBe('Test The is the bug Maybe?');
+  });
+
+  it('replaces multiple other illegal characters on other os', () => {
+    const title = 'Test//\\ The is the bug Maybe?';
+    const result = getFileName(title, 'MacOS');
+    expect(result).toBe('Test--- The is the bug Maybe?');
+  });
+
+  it('shortens filename if it exceeds max characters', () => {
+    const title = 'A'.repeat(61);
+    const result = getFileName(title);
+    expect(result.length).toBe(60);
+  });
+});
 
 describe('getFileContent', () => {
   beforeAll(() => {
