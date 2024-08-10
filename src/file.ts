@@ -19,9 +19,7 @@ export type Option =
   | 'include_title'
   | 'include_word_count';
 
-export type MetadataOrOption =
-  | Metadata
-  | Option
+export type MetadataOrOption = Metadata | Option;
 
 export type Config = {
   [K in MetadataOrOption]: K extends Option ? boolean : string;
@@ -59,9 +57,17 @@ export function getFileContent(
       new Intl.DateTimeFormat('en-US').format(new Date()),
       config.include_timestamp
     ) +
-    yamlItemOrEmpty(config.domain, window.location.hostname, config.include_domain) +
+    yamlItemOrEmpty(
+      config.domain,
+      window.location.hostname,
+      config.include_domain
+    ) +
     yamlItemOrEmpty(config.excerpt, excerpt, config.include_excerpt) +
-    yamlItemOrEmpty(config.word_count, length.toString(), config.include_word_count) +
+    yamlItemOrEmpty(
+      config.word_count,
+      length.toString(),
+      config.include_word_count
+    ) +
     yamlItemOrEmpty(config.status, 'unread', config.include_status) +
     '---' +
     '\n' +
@@ -71,9 +77,30 @@ export function getFileContent(
   );
 }
 
-function yamlItemOrEmpty(item: string | undefined, value: string, include = false) {
+function yamlItemOrEmpty(
+  item: string | undefined,
+  value: string,
+  include = false
+) {
   if (!include || !item) {
     return '';
   }
-  return yamlItem(item, value)
+  return yamlItem(item, value);
+}
+
+const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
+
+export function getFileName(
+  fileName: string,
+  platform = window.navigator.platform
+) {
+  if (windowsPlatforms.indexOf(platform) !== -1) {
+    fileName = fileName.replace(/:/g, '').replace(/[/\\?%*|"<>]/g, '-');
+  } else {
+    fileName = fileName
+      .replace(/:/g, '')
+      .replace(/\//g, '-')
+      .replace(/\\/g, '-');
+  }
+  return fileName.slice(0, 60);
 }

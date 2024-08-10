@@ -13,28 +13,14 @@
 
 // Log `title` of current active web page
 import { Readability } from '@mozilla/readability';
-import { getFileContent } from './fileContents';
+import { getFileContent, getFileName } from './file';
 import { SettingEntries, STORAGE_KEYS } from './options';
+import { exportToObsidian } from './obsidian';
 
 // With background scripts you can communicate with popup
 // and contentScript files.
 // For more information on background script,
 // See https://developer.chrome.com/extensions/background_pages
-
-function getFileName(fileName: string) {
-  const platform = window.navigator.platform,
-    windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'];
-
-  if (windowsPlatforms.indexOf(platform) !== -1) {
-    fileName = fileName.replace(':', '').replace(/[/\\?%*|"<>]/g, '-');
-  } else {
-    fileName = fileName
-      .replace(':', '')
-      .replace(/\//g, '-')
-      .replace(/\\/g, '-');
-  }
-  return fileName;
-}
 
 function parseDocument() {
   const parsedDocument = new Readability(
@@ -46,22 +32,6 @@ function parseDocument() {
   }
 
   return parsedDocument;
-}
-
-function exportToObsidian(
-  title: string,
-  fileContent: string,
-  vault: string,
-  folder: string
-) {
-  document.location.href =
-    'obsidian://new?' +
-    'file=' +
-    encodeURIComponent(folder + '/' + getFileName(title)) +
-    '&content=' +
-    encodeURIComponent(fileContent) +
-    '&vault=' +
-    encodeURIComponent(`${vault}`);
 }
 
 type Settings = { [key in SettingEntries]: any };
@@ -79,7 +49,12 @@ async function main() {
     { tag: config.tag, title, content, excerpt, length },
     config
   );
-  exportToObsidian(title, fileContent, config.vaultName, config.folder);
+  exportToObsidian(
+    getFileName(title),
+    fileContent,
+    config.vaultName,
+    config.folder
+  );
 }
 
-main();
+void main();
