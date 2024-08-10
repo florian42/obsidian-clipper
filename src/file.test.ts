@@ -27,9 +27,9 @@ describe('getFileName', () => {
   });
 
   it('shortens filename if it exceeds max characters', () => {
-    const title = 'A'.repeat(61);
+    const title = 'A'.repeat(101);
     const result = getFileName(title);
-    expect(result.length).toBe(60);
+    expect(result.length).toBe(100);
   });
 });
 

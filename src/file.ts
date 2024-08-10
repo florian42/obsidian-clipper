@@ -102,5 +102,5 @@ export function getFileName(
       .replace(/\//g, '-')
       .replace(/\\/g, '-');
   }
-  return fileName.slice(0, 60);
+  return fileName.slice(0, 100);
 }
