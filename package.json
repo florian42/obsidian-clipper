@@ -37,7 +37,7 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "@mozilla/readability": "^0.4.2",
+    "@mozilla/readability": "^0.6.0",
     "turndown": "^7.1.1"
   }
 }
